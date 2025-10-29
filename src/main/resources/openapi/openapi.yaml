@@ -1,0 +1,112 @@
+openapi: 3.0.4
+
+info:
+  title: ECommerce API
+  version: 0.0.1
+  description: |-
+    API for ecommerce management.
+  contact:
+    email: martin.yanez.corti@kairosds.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+tags:
+  - name: Price
+    description: Product prices management
+
+paths:
+  /brands/{brandId}/products/{productId}/prices/{applicationDate}:
+    get:
+      description: Get the highest priority price for given product on given date.
+      tags:
+        - Price
+      summary: Get the highest priority price for {productId} on {applicationDate}.
+      operationId: getProductPriceByDate
+      parameters:
+        - name: brandId
+          in: path
+          description: ID of the brand the product belongs
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: productId
+          in: path
+          description: ID of product to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: applicationDate
+          in: path
+          description: Date by which we want to know the price of the product
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Product:
+      required:
+        - productId
+        - brandId
+        - tariffId
+        - startDate
+        - endDate
+        - price
+        - currency
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+          example: 10
+        brandId:
+          type: integer
+          format: int64
+          example: 10
+        tariffId:
+          type: integer
+          format: int64
+          example: 10
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        price:
+          type: number
+          format: float
+          example: 30.33
+        currency:
+          type: string
+          example: EUR
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
