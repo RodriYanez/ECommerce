@@ -120,7 +120,5 @@ components:
       properties:
         code:
           type: string
-          example: PRICE_NOT_FOUND
         message:
           type: string
-          example: No price found for given brand/product/date

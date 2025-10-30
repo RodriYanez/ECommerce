@@ -19,7 +19,8 @@ public class PriceController implements PriceApi {
 
     @Override
     public ResponseEntity<PriceDTO> getProductPriceByDate(Long brandId, Long productId, OffsetDateTime applicationDate) {
-        final var price = getProductPriceByDateUseCase.getProductPriceByDate(brandId, productId, applicationDate.toLocalDateTime());
+        final var price = getProductPriceByDateUseCase.getProductPriceByDateWithHighestPriority(brandId, productId,
+                applicationDate.toLocalDateTime());
         final var productDTO = priceDTOMapper.toDTO(price);
         return ResponseEntity.ok(productDTO);
     }

@@ -6,5 +6,5 @@ import java.util.List;
 import com.kairos.ecommerce.domain.models.Price;
 
 public interface PricePort {
-    List<Price> findPriceByBrandIdAndProductIdAndDate(Long brandId, Long productId, LocalDateTime date);
+    List<Price> findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(Long brandId, Long productId, LocalDateTime date);
 }

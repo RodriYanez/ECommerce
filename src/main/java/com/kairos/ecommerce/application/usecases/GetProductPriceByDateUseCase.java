@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 public class GetProductPriceByDateUseCase {
     private PricePort pricePort;
 
-    public Price getProductPriceByDate(Long brandId, Long productId, LocalDateTime date) {
-        final var prices = pricePort.findPriceByBrandIdAndProductIdAndDate(brandId, productId, date);
+    public Price getProductPriceByDateWithHighestPriority(Long brandId, Long productId, LocalDateTime date) {
+        final var prices = pricePort.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date);
         return getPriceWithHighestPriority(prices);
     }
 

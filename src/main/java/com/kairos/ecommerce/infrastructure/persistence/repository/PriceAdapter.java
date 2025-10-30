@@ -18,8 +18,8 @@ public class PriceAdapter implements PricePort {
     private PriceEntityMapper priceEntityMapper;
 
     @Override
-    public List<Price> findPriceByBrandIdAndProductIdAndDate(Long brandId, Long productId, LocalDateTime date) {
-        final var entities = pricesJPARepository.findPriceByBrandIdAndProductIdAndDate(brandId, productId, date);
+    public List<Price> findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(Long brandId, Long productId, LocalDateTime date) {
+        final var entities = pricesJPARepository.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date);
 
         if (entities == null || entities.isEmpty()) {
             final var message = "No prices found for brandId=%d, productId=%d, date=%s".formatted(brandId, productId, date);
