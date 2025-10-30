@@ -1,0 +1,413 @@
+{
+	"info": {
+		"_postman_id": "51e82374-d04e-4a80-8eb5-b135923eb71d",
+		"name": "ECommerce tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49146242"
+	},
+	"item": [
+		{
+			"name": "Test 2020-06-14 10:00",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Test 1: HTTP status should be 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Test 2: Check if price property exist",
+							"pm.test(\"Response has price field\", function () {",
+							"    pm.expect(response).to.have.property(\"price\");",
+							"});",
+							"",
+							"// Test 3: Check if price value is correct",
+							"pm.test(\"Price value is correct (35.5)\", function () {",
+							"    pm.expect(response.price).to.eql(35.5);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/brands/1/products/35455/prices?applicationDate=2020-06-14T10:00:00Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"brands",
+						"1",
+						"products",
+						"35455",
+						"prices"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T10:00:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2020-06-14 16:00",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Test 1: HTTP status should be 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Test 2: Check if price property exist",
+							"pm.test(\"Response has price field\", function () {",
+							"    pm.expect(response).to.have.property(\"price\");",
+							"});",
+							"",
+							"// Test 3: Check if price value is correct",
+							"pm.test(\"Price value is correct (25.45)\", function () {",
+							"    pm.expect(response.price).to.eql(25.45);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/brands/1/products/35455/prices?applicationDate=2020-06-14T16:00:00Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"brands",
+						"1",
+						"products",
+						"35455",
+						"prices"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T16:00:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2020-06-14 21:00",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Test 1: HTTP status should be 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Test 2: Check if price property exist",
+							"pm.test(\"Response has price field\", function () {",
+							"    pm.expect(response).to.have.property(\"price\");",
+							"});",
+							"",
+							"// Test 3: Check if price value is correct",
+							"pm.test(\"Price value is correct (35.5)\", function () {",
+							"    pm.expect(response.price).to.eql(35.50);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/brands/1/products/35455/prices?applicationDate=2020-06-14T21:00:00Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"brands",
+						"1",
+						"products",
+						"35455",
+						"prices"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T21:00:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2020-06-15 10:00",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Test 1: HTTP status should be 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Test 2: Check if price property exist",
+							"pm.test(\"Response has price field\", function () {",
+							"    pm.expect(response).to.have.property(\"price\");",
+							"});",
+							"",
+							"// Test 3: Check if price value is correct",
+							"pm.test(\"Price value is correct (30.5)\", function () {",
+							"    pm.expect(response.price).to.eql(30.50);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/brands/1/products/35455/prices?applicationDate=2020-06-15T10:00:00Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"brands",
+						"1",
+						"products",
+						"35455",
+						"prices"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2020-06-15T10:00:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2020-06-16 21:00",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Test 1: HTTP status should be 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Test 2: Check if price property exist",
+							"pm.test(\"Response has price field\", function () {",
+							"    pm.expect(response).to.have.property(\"price\");",
+							"});",
+							"",
+							"// Test 3: Check if price value is correct",
+							"pm.test(\"Price value is correct (38.95)\", function () {",
+							"    pm.expect(response.price).to.eql(38.95);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/brands/1/products/35455/prices?applicationDate=2020-06-16T21:00:00Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"brands",
+						"1",
+						"products",
+						"35455",
+						"prices"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2020-06-16T21:00:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price not found test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Test 1: HTTP status should be 404",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"// Test 2: Check if code property exist",
+							"pm.test(\"Response has code field\", function () {",
+							"    pm.expect(response).to.have.property(\"code\");",
+							"});",
+							"",
+							"// Test 3: Check if code value is correct",
+							"pm.test(\"Code value is correct (PRICE_NOT_FOUND)\", function () {",
+							"    pm.expect(response.code).to.eql(\"PRICE_NOT_FOUND\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/brands/1/products/35455/prices?applicationDate=2020-05-16T21:00:00Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"brands",
+						"1",
+						"products",
+						"35455",
+						"prices"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2020-05-16T21:00:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad request test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Test 1: HTTP status should be 400",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"// Test 2: Check if code property exist",
+							"pm.test(\"Response has code field\", function () {",
+							"    pm.expect(response).to.have.property(\"code\");",
+							"});",
+							"",
+							"// Test 3: Check if code value is correct",
+							"pm.test(\"Code value is correct (INVALID_ARGUMENT_ERROR)\", function () {",
+							"    pm.expect(response.code).to.eql(\"INVALID_ARGUMENT_ERROR\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/brands/1/products/asd/prices?applicationDate=2020-05-16T21:00:00Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"brands",
+						"1",
+						"products",
+						"asd",
+						"prices"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2020-05-16T21:00:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
