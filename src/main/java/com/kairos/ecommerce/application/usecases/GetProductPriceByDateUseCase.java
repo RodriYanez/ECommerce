@@ -20,6 +20,6 @@ public class GetProductPriceByDateUseCase {
 
     private Price getPriceWithHighestPriority(List<Price> prices) {
         //As far as the query already order by priority, we only need to get the first one here.
-        return prices.stream().findFirst().orElseThrow();
+        return prices.get(0);
     }
 }

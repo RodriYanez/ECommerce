@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kairos.ecommerce.domain.models.Price;
 import com.kairos.ecommerce.domain.port.PricePort;
+import com.kairos.ecommerce.infrastructure.exceptions.PriceNotFoundException;
 import com.kairos.ecommerce.infrastructure.persistence.daos.PricesJPARepository;
 import com.kairos.ecommerce.infrastructure.persistence.mapper.PriceEntityMapper;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,15 @@ public class PriceAdapter implements PricePort {
 
     @Override
     public List<Price> findPriceByBrandIdAndProductIdAndDate(Long brandId, Long productId, LocalDateTime date) {
-        return pricesJPARepository.findPriceByBrandIdAndProductIdAndDate(brandId, productId, date).stream()
-                .map(priceEntityMapper::priceEntityToPrice).toList();
+        final var entities = pricesJPARepository.findPriceByBrandIdAndProductIdAndDate(brandId, productId, date);
+
+        if (entities == null || entities.isEmpty()) {
+            final var message = "No prices found for brandId=%d, productId=%d, date=%s".formatted(brandId, productId, date);
+            throw new PriceNotFoundException(message);
+        }
+
+        return entities.stream()
+                .map(priceEntityMapper::priceEntityToPrice)
+                .toList();
     }
 }
