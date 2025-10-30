@@ -4,13 +4,20 @@ import java.time.LocalDateTime;
 
 import com.kairos.ecommerce.domain.models.Price;
 import com.kairos.ecommerce.infrastructure.persistence.entities.PriceEntity;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PriceEntityMapperTest {
 
-    private final PriceEntityMapper mapper = PriceEntityMapper.INSTANCE;
+    private PriceEntityMapper mapper;
+
+    @BeforeEach
+    void setUp() {
+        mapper = Mappers.getMapper(PriceEntityMapper.class);
+    }
 
     @Test
     void shouldMapEntityToDomainCorrectly() {

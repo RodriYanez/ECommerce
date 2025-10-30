@@ -9,12 +9,9 @@ import com.kairos.ecommerce.infrastructure.rest.dto.PriceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface PriceDTOMapper {
-
-    PriceDTOMapper INSTANCE = Mappers.getMapper(PriceDTOMapper.class);
 
     @Mapping(source = "priceList", target = "tariffId")
     @Mapping(source = "startDate", target = "startDate", qualifiedByName = "localToOffset")
