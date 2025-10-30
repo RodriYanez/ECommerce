@@ -9,10 +9,12 @@ import com.kairos.ecommerce.infrastructure.exceptions.PriceNotFoundException;
 import com.kairos.ecommerce.infrastructure.persistence.daos.PricesJPARepository;
 import com.kairos.ecommerce.infrastructure.persistence.mapper.PriceEntityMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @AllArgsConstructor
+@Slf4j
 public class PriceAdapter implements PricePort {
     private PricesJPARepository pricesJPARepository;
     private PriceEntityMapper priceEntityMapper;
@@ -23,9 +25,11 @@ public class PriceAdapter implements PricePort {
 
         if (entities == null || entities.isEmpty()) {
             final var message = "No prices found for brandId=%d, productId=%d, date=%s".formatted(brandId, productId, date);
+            log.warn(message);
             throw new PriceNotFoundException(message);
         }
 
+        log.info("Found %d prices".formatted(entities.size()));
         return entities.stream()
                 .map(priceEntityMapper::priceEntityToPrice)
                 .toList();
