@@ -62,7 +62,7 @@ class GetProductPriceByDateUseCaseTest {
     @Test
     void shouldReturnFirstPriceFromPort() {
         // given
-        when(pricePort.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date))
+        when(pricePort.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date))
                 .thenReturn(List.of(priceHighPriority, priceLowPriority));
 
         // when
@@ -70,13 +70,13 @@ class GetProductPriceByDateUseCaseTest {
 
         // then
         assertThat(result).isEqualTo(priceHighPriority);
-        verify(pricePort).findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date);
+        verify(pricePort).findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date);
     }
 
     @Test
     void shouldPropagateExceptionWhenPortFails() {
         // given
-        when(pricePort.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(any(), any(), any()))
+        when(pricePort.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(any(), any(), any()))
                 .thenThrow(new PriceNotFoundException("Price not found."));
 
         // when / then
@@ -84,6 +84,36 @@ class GetProductPriceByDateUseCaseTest {
                 .isInstanceOf(PriceNotFoundException.class)
                 .hasMessage("Price not found.");
 
-        verify(pricePort).findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date);
+        verify(pricePort).findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenRepositoryReturnsEmptyList() {
+        // given
+        when(pricePort.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date))
+                .thenReturn(List.of());
+
+        // when / then
+        assertThatThrownBy(() ->
+                useCase.getProductPriceByDateWithHighestPriority(brandId, productId, date))
+                .isInstanceOf(PriceNotFoundException.class)
+                .hasMessageContaining("No prices found for brandId=%d, productId=%d".formatted(brandId, productId));
+
+        verify(pricePort).findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenRepositoryReturnsNull() {
+        // given
+        when(pricePort.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date))
+                .thenReturn(null);
+
+        // when / then
+        assertThatThrownBy(() ->
+                useCase.getProductPriceByDateWithHighestPriority(brandId, productId, date))
+                .isInstanceOf(PriceNotFoundException.class)
+                .hasMessageContaining("No prices found for brandId=%d, productId=%d".formatted(brandId, productId));
+
+        verify(pricePort).findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date);
     }
 }

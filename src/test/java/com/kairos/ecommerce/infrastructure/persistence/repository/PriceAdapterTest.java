@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.kairos.ecommerce.domain.models.Price;
-import com.kairos.ecommerce.infrastructure.exceptions.PriceNotFoundException;
 import com.kairos.ecommerce.infrastructure.persistence.daos.PricesJPARepository;
 import com.kairos.ecommerce.infrastructure.persistence.entities.PriceEntity;
 import com.kairos.ecommerce.infrastructure.persistence.mapper.PriceEntityMapper;
@@ -13,10 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 class PriceAdapterTest {
@@ -51,12 +48,12 @@ class PriceAdapterTest {
                 .endDate(date.plusDays(1))
                 .build();
 
-        when(pricesJPARepository.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date))
+        when(pricesJPARepository.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date))
                 .thenReturn(List.of(entity1));
         when(priceEntityMapper.priceEntityToPrice(entity1)).thenReturn(price1);
 
         // when
-        final var result = priceAdapter.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date);
+        final var result = priceAdapter.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date);
 
         // then
         assertThat(result).hasSize(1);
@@ -67,7 +64,7 @@ class PriceAdapterTest {
         ArgumentCaptor<Long> productCaptor = ArgumentCaptor.forClass(Long.class);
         ArgumentCaptor<LocalDateTime> dateCaptor = ArgumentCaptor.forClass(LocalDateTime.class);
 
-        verify(pricesJPARepository).findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(
+        verify(pricesJPARepository).findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(
                 brandCaptor.capture(), productCaptor.capture(), dateCaptor.capture());
 
         assertThat(brandCaptor.getValue()).isEqualTo(brandId);
@@ -78,42 +75,22 @@ class PriceAdapterTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenRepositoryReturnsEmptyList() {
+    void shouldReturnEmptyListWhenRepositoryReturnsNoEntities() {
         // given
-        final var brandId = 2L;
-        final var productId = 999L;
-        final var date = LocalDateTime.now();
+        final var brandId = 1L;
+        final var productId = 35455L;
+        final var date = LocalDateTime.of(2020, 6, 14, 16, 0);
 
-        when(pricesJPARepository.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date))
+        when(pricesJPARepository.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date))
                 .thenReturn(List.of());
 
-        // when / then
-        assertThatThrownBy(() ->
-                priceAdapter.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date))
-                .isInstanceOf(PriceNotFoundException.class)
-                .hasMessageContaining("No prices found for brandId=%d, productId=%d".formatted(brandId, productId));
+        // when
+        final var result = priceAdapter.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(brandId, productId, date);
 
-        verify(pricesJPARepository).findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date);
-        verifyNoInteractions(priceEntityMapper);
-    }
+        // then
+        assertThat(result).isEmpty();
 
-    @Test
-    void shouldThrowExceptionWhenRepositoryReturnsNull() {
-        // given
-        final var brandId = 3L;
-        final var productId = 777L;
-        final var date = LocalDateTime.now();
-
-        when(pricesJPARepository.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date))
-                .thenReturn(null);
-
-        // when / then
-        assertThatThrownBy(() ->
-                priceAdapter.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date))
-                .isInstanceOf(PriceNotFoundException.class)
-                .hasMessageContaining("No prices found for brandId=%d, productId=%d".formatted(brandId, productId));
-
-        verify(pricesJPARepository).findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(brandId, productId, date);
-        verifyNoInteractions(priceEntityMapper);
+        verify(pricesJPARepository).findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(
+                brandId, productId, date);
     }
 }

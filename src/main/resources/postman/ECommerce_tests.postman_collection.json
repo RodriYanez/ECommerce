@@ -408,6 +408,56 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Required field not present test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Test 1: HTTP status should be 400",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"// Test 2: Check if code property exist",
+							"pm.test(\"Response has code field\", function () {",
+							"    pm.expect(response).to.have.property(\"code\");",
+							"});",
+							"",
+							"// Test 3: Check if code value is correct",
+							"pm.test(\"Code value is correct (REQUIRED_FIELD_ERROR)\", function () {",
+							"    pm.expect(response.code).to.eql(\"REQUIRED_FIELD_ERROR\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/brands/1/products/35455/prices",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"brands",
+						"1",
+						"products",
+						"35455",
+						"prices"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

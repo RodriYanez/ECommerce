@@ -5,6 +5,7 @@ import com.kairos.ecommerce.infrastructure.rest.dto.ErrorDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -19,6 +20,13 @@ public class RestControllerHandler {
     public ResponseEntity<ErrorDTO> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         log.error(ex.getMessage(), ex);
         final var errorDTO = ErrorDTO.builder().code("INVALID_ARGUMENT_ERROR").message(ex.getMessage()).build();
+        return badRequest().body(errorDTO);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorDTO> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
+        log.error(ex.getMessage(), ex);
+        final var errorDTO = ErrorDTO.builder().code("REQUIRED_FIELD_ERROR").message(ex.getMessage()).build();
         return badRequest().body(errorDTO);
     }
 

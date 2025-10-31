@@ -58,28 +58,12 @@ class PricesJPARepositoryITest {
     }
 
     @Test
-    void shouldReturnPricesWithinDateRangeOrderedByPriorityDesc() {
-        // given
-        final var applicationDate = LocalDateTime.of(2020, 6, 14, 16, 0);
-
-        // when
-        final var results = repository.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(
-                BRAND_ID, PRODUCT_ID, applicationDate);
-
-        // then
-        assertThat(results).hasSize(2);
-        assertThat(results.get(0).getPriority()).isGreaterThanOrEqualTo(results.get(1).getPriority());
-        assertThat(results.get(0).getProductId()).isEqualTo(PRODUCT_ID);
-        assertThat(results.get(0).getBrandId()).isEqualTo(BRAND_ID);
-    }
-
-    @Test
     void shouldReturnEmptyListWhenNoMatchingDate() {
         // given
         final var outsideDate = LocalDateTime.of(2019, 1, 1, 0, 0);
 
         // when
-        final var results = repository.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(
+        final var results = repository.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(
                 BRAND_ID, PRODUCT_ID, outsideDate);
 
         // then
@@ -92,8 +76,8 @@ class PricesJPARepositoryITest {
         final var date = LocalDateTime.of(2020, 6, 14, 10, 0);
 
         // when
-        final var wrongBrand = repository.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(99L, PRODUCT_ID, date);
-        final var wrongProduct = repository.findPriceByBrandIdAndProductIdAndDateOrderByPriorityDesc(BRAND_ID, 99999L, date);
+        final var wrongBrand = repository.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(99L, PRODUCT_ID, date);
+        final var wrongProduct = repository.findPriceByBrandIdAndProductIdAndDateBetweenStartDateAndEndDate(BRAND_ID, 99999L, date);
 
         // then
         assertThat(wrongBrand).isEmpty();
